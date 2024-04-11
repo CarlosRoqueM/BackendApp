@@ -14,9 +14,9 @@ User.create = (user, result) => {
         imageback,
         password,
         created_at,
-        update_at
+        updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(

@@ -16,3 +16,14 @@ create table users(
     created_at timestamp(0) not null,
     updated_at timestamp(0) not null
 );
+
+create table roles(
+	id bigint primary key auto_increment,
+    name varchar(90) null,
+    lastname1 varchar(90) null,
+    lastname2 varchar(90) null,
+    image varchar(255) null,
+    route varchar(180) not null,
+    created_at timestamp(0) not null,
+    updated_at timestamp(0) not null
+);

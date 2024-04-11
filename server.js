@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -12,7 +14,7 @@ const cors = require('cors');
 const usersRoutes = require('./routes/userRoutes');
 
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,9 +35,11 @@ app.set('port', port);
 usersRoutes(app);
 
 //Cambiar constantemente porque se actualiza
-//server.listen(3000, 'IP' (de la maquina) || 'localhost', function() {
+// en caso se quiera usar un ip 
+// server.listen(3000, 'IP' (de la maquina) || 'localhost', function() {
+//Cambiar el puerto ante cualquier error o verificar la contraseña
 
-server.listen(8000,'localhost', function() {
+server.listen(3000, process.env.IP_MAQUINA || 'localhost', function() {
     console.log('aplicacion en el ' + port +' Iniciando....')
 });
 
