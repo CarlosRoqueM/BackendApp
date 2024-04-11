@@ -12,7 +12,7 @@ const cors = require('cors');
 const usersRoutes = require('./routes/userRoutes');
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -35,7 +35,7 @@ usersRoutes(app);
 //Cambiar constantemente porque se actualiza
 //server.listen(3000, 'IP' (de la maquina) || 'localhost', function() {
 
-server.listen(3000,'192.168.1.44' || 'localhost', function() {
+server.listen(8000,'localhost', function() {
     console.log('aplicacion en el ' + port +' Iniciando....')
 });
 
