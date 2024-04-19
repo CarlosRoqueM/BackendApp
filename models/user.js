@@ -5,6 +5,7 @@ const User = {};
 User.create = (user, result) => {
     const sql = `INSERT INTO users(
         email,
+        dni,
         name,
         lastname1,
         lastname2,
@@ -16,13 +17,14 @@ User.create = (user, result) => {
         created_at,
         updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
         sql,
         [
             user.email,
+            user.dni,
             user.name,
             user.lastname1,
             user.lastname2,

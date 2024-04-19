@@ -17,6 +17,12 @@ create table users(
     updated_at timestamp(0) not null
 );
 
+//Cambio 19/04/2024
+
+ALTER TABLE app.users
+ADD COLUMN dni varchar(90) null unique;
+
+
 create table roles(
 	id bigint primary key auto_increment,
     name varchar(90) null,
