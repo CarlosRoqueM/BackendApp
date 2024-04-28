@@ -1,8 +1,71 @@
 const db = require('../config/config');
+const bcrypt = require('bcryptjs');
 
 const User = {};
 
-User.create = (user, result) => {
+User.findByID = (id, result) => {
+    const sql = `
+    SELECT 
+        id,
+        email,
+        dni,
+        name,
+        lastname1,
+        lastname2,
+        phone,
+        location,
+        password,
+        image
+    FROM 
+     users 
+    WHERE 
+    id = ?`;
+
+    db.query(sql, [id], (err, user) => {
+        if(err){
+            console.log(`Error: `, err);
+            result(err, null);
+        }else{
+            console.log(`Usuario: `, user[0]);
+            result(null, user[0]);
+        }
+    });
+}   
+
+User.findByEmail = (email, result) => {
+    const sql = `
+    SELECT
+        id,
+        email,
+        dni,
+        name,
+        lastname1,
+        lastname2,
+        phone,
+        location,
+        password,
+        image
+    FROM
+        users
+    WHERE
+        email = ?`;
+
+    db.query(sql, [email], (err, user) => {
+        if(err){
+            console.log(`Error: `, err);
+                result(err, null);
+        }else{                
+            console.log(`Usuario: `, user[0]);
+            result(null, user[0]);
+            }
+    });
+}        
+
+User.create = async (user, result) => {
+
+    //Encriptacion del password
+    const hash = await bcrypt.hash(user.password, 10);
+
     const sql = `INSERT INTO users(
         email,
         dni,
@@ -12,12 +75,11 @@ User.create = (user, result) => {
         phone,
         location,
         image,
-        imageback,
         password,
         created_at,
         updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -31,8 +93,7 @@ User.create = (user, result) => {
             user.phone,
             user.location,
             user.image,
-            user.imageback,
-            user.password,
+            hash,
             new Date(),
             new Date()
         ],
