@@ -1,6 +1,6 @@
 const usersController = require('../controllers/usersController');
 
-module.exports = (app) => {
+module.exports = (app, upload) => {
     //GET -- Optener datos
     //POST -- Almacenar datos
     //PUT -- Actualizar datos
@@ -9,6 +9,8 @@ module.exports = (app) => {
     //Prueba
 
     app.post('/api/users/create', usersController.register);
+
+    app.post('/api/users/createWithImage', upload.array('image', 1), usersController.registerwithImage);
 
     app.post('/api/users/login', usersController.login);
 }

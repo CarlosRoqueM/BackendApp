@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
+const multer = require('multer');
 
 /*
 * Importe de Rutas
@@ -35,11 +36,15 @@ app.disable('x-powered-by');
 
 app.set('port', port);
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+});
+
 /*
 * LLamado de Rutas
 */
 
-usersRoutes(app);
+usersRoutes(app, upload);
 
 //Cambiar constantemente porque se actualiza
 // en caso se quiera usar un ip 

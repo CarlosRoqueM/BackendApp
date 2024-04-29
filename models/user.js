@@ -29,7 +29,8 @@ User.findByID = (id, result) => {
             console.log(`Usuario: `, user[0]);
             result(null, user[0]);
         }
-    });
+    }
+    );
 }   
 
 User.findByEmail = (email, result) => {
