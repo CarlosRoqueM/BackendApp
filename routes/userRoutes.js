@@ -6,6 +6,8 @@ module.exports = (app) => {
     //PUT -- Actualizar datos
     //DELETE -- Eliminar datos
 
+    //Prueba
+
     app.post('/api/users/create', usersController.register);
 
     app.post('/api/users/login', usersController.login);
