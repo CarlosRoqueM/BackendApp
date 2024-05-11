@@ -3,23 +3,124 @@ const bcrypt = require('bcryptjs');
 
 const User = {};
 
+/*---- Traer datos de los enfermeros por roles --------- */
+
+User.findByRoles = (id_rol, result) => {
+    const sql = `
+    SELECT
+        CONVERT(U.id, char) AS id,
+        U.email,
+        U.dni,
+        U.name,
+        U.lastname1,
+        U.lastname2,
+        U.phone,
+        U.location,
+        U.image,
+        CONVERT(R.id, char) AS id_rol
+    FROM
+        users AS U
+    INNER JOIN
+        user_has_roles AS UHR
+    ON
+        UHR.id_user = U.id
+    INNER JOIN
+        roles AS R
+    ON 
+        UHR.id_rol = R.id
+    WHERE
+        id_rol = 1
+    GROUP BY
+        U.id;
+    `;
+    db.query(sql, [id_rol], (err, users) => {
+        if(err){
+            console.log(`Error: `, err);
+            result(err, null);
+        }else{
+            console.log(`Usuarios: `, users);
+            result(null, users);
+        }
+    });
+}
+
+/*---- Traer datos de los enfermeros--------- */
+
+User.getAllNurses = (result) => {
+    const sql = `
+    SELECT
+        CONVERT(U.id, char) AS id,
+        U.email,
+        U.dni,
+        U.name,
+        U.lastname1,
+        U.lastname2,
+        U.phone,
+        U.location,
+        U.image
+    FROM
+        users AS U
+    INNER JOIN
+        user_has_roles AS UHR
+    ON
+        UHR.id_user = U.id
+    INNER JOIN
+        roles AS R
+    ON
+        UHR.id_rol = R.id
+    WHERE
+        R.id = 1
+    GROUP BY
+        U.id;
+    `;
+    db.query(sql, (err, users) => {
+        if(err){
+            console.log(`Error: `, err);
+            result(err, null);
+        }else{
+            console.log(`Usuarios: `, users);
+            result(null, users);
+        }
+    });
+}
+
+
 User.findByID = (id, result) => {
     const sql = `
-    SELECT 
-        id,
-        email,
-        dni,
-        name,
-        lastname1,
-        lastname2,
-        phone,
-        location,
-        password,
-        image
-    FROM 
-     users 
+    SELECT
+        CONVERT(U.id, char) AS id,
+        U.email,
+        U.dni,
+        U.name,
+        U.lastname1,
+        U.lastname2,
+        U.phone,
+        U.location,
+        U.password,
+        U.image,
+        JSON_ARRAYAGG(
+			JSON_OBJECT(
+				'id', CONVERT(R.id, char),
+                'name', R.name,
+                'image', R.image,
+                'route', R.route 
+            )
+        ) AS roles
+    FROM
+        users AS U
+    INNER JOIN
+		user_has_roles AS UHR
+	ON
+		UHR.id_user = U.id
+    INNER JOIN
+		roles AS R
+	ON 
+		UHR.id_rol = R.id 
     WHERE 
-    id = ?`;
+        U.id = ?
+    GROUP BY
+		U.id
+    `;
 
     db.query(sql, [id], (err, user) => {
         if(err){
@@ -36,21 +137,39 @@ User.findByID = (id, result) => {
 User.findByEmail = (email, result) => {
     const sql = `
     SELECT
-        id,
-        email,
-        dni,
-        name,
-        lastname1,
-        lastname2,
-        phone,
-        location,
-        password,
-        image
+        U.id,
+        U.email,
+        U.dni,
+        U.name,
+        U.lastname1,
+        U.lastname2,
+        U.phone,
+        U.location,
+        U.password,
+        U.image,
+        JSON_ARRAYAGG(
+			JSON_OBJECT(
+				'id', CONVERT(R.id, char),
+                'name', R.name,
+                'image', R.image,
+                'route', R.route 
+            )
+        ) AS roles
     FROM
-        users
+        users AS U
+    INNER JOIN
+		user_has_roles AS UHR
+	ON
+		UHR.id_user = U.id
+    INNER JOIN
+		roles AS R
+	ON 
+		UHR.id_rol = R.id
     WHERE
-        email = ?`;
-
+        email = ?
+	GROUP BY
+		U.id
+    `;
     db.query(sql, [email], (err, user) => {
         if(err){
             console.log(`Error: `, err);
@@ -105,6 +224,72 @@ User.create = async (user, result) => {
             }else{
                 console.log(`Id del nuevo ususario: `, res.insertId);
                 result(null, res.insertId);
+            }
+        }
+    )
+}
+
+User.update = (user, result) => {
+
+    const sql = `UPDATE 
+        users 
+    SET
+        phone = ?,
+        location = ?,
+        image = ?,
+        updated_at = ?
+    WHERE
+        id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            user.phone,
+            user.location,
+            user.image,
+            new Date(),
+            user.id
+        ],
+        (err, res) => {
+            if(err){
+                console.log(`Error: `, err);
+                result(err, null);
+            }else{
+                console.log(`Usuario actualizado: `, user.id);
+                result(null, user.id);
+            }
+        }
+    )
+}
+
+User.updateWithOutImage = (user, result) => {
+
+    const sql = `UPDATE 
+        users 
+    SET
+        phone = ?,
+        location = ?,
+        updated_at = ?
+    WHERE
+        id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            user.phone,
+            user.location,
+            new Date(),
+            user.id
+        ],
+        (err, res) => {
+            if(err){
+                console.log(`Error: `, err);
+                result(err, null);
+            }else{
+                console.log(`Usuario actualizado: `, user.id);
+                result(null, user.id);
             }
         }
     )
