@@ -89,7 +89,7 @@ module.exports =  {
                 data: data //Id del nuevo usuario
             });
         });
-        
+
     },
 
     async registerwithImage(req, res){
@@ -105,10 +105,11 @@ module.exports =  {
 
             if(url != undefined && url != null){
                 user.image = url;
+            }
         }
-    }
 
-        User.create(user, (err, data) =>{
+        User.create(user, (err, data) => {
+
             if(err){
                 return res.status(501).json({
                     success: false,
@@ -125,7 +126,7 @@ module.exports =  {
             }, keys.secretOrkey, {});
             user.session_token = `JWT ${token}`;
             
-            Rol.create(user.id, 2, (err, data) => {
+            Rol.create(user.id, 2,(err, data) => {
                 if(err){
                     return res.status(501).json({
                         success: false,
@@ -137,7 +138,7 @@ module.exports =  {
                 return res.status(201).json({
                     success: true,
                     message: 'Registro exitoso',
-                    data: User //Id del nuevo usuario
+                    data: user //Id del nuevo usuario
                 });
             });   
         });
@@ -204,7 +205,7 @@ module.exports =  {
             }, keys.secretOrkey, {});
             user.session_token = `JWT ${token}`;
             
-            Rol.create(user.id, 1, (err, data) => {
+            Rol.create2(user.id, 1, (err, data) => {
                 if(err){
                     return res.status(501).json({
                         success: false,
