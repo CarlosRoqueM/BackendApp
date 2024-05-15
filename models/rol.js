@@ -17,17 +17,16 @@ Rol.create = (id_user, id_rol, result) => {
             ?, ?, ?, ?
         )`;
 
-    db.query(sql, [id_user, 2,new Date(), new Date()], (err, res) => {
-        if(err){
+    db.query(sql, [id_user, id_rol, new Date(), new Date()], (err, res) => {
+        if (err) {
             console.log(`Error: `, err);
             result(err, null);
-        }else{
+        } else {
             console.log(`Usuario obtenido: `, res.insertId);
             result(null, res.insertId);
         }
-    
-        }
-    )
+
+    })
 }
 //este create es para los enfermeros
 Rol.create2 = (id_user, id_rol, result) => {
@@ -45,7 +44,7 @@ Rol.create2 = (id_user, id_rol, result) => {
             ?, ?, ?, ?
         )`;
 
-    db.query(sql, [id_user, 1,new Date(), new Date()], (err, res) => {
+    db.query(sql, [id_user, id_rol,new Date(), new Date()], (err, res) => {
         if(err){
             console.log(`Error: `, err);
             result(err, null);
@@ -76,7 +75,8 @@ Rol.getAll = (result) => {
             console.log(`Roles: `, roles);
             result(null, roles);
         }
-    });
+    }
+    )
 
 }
 

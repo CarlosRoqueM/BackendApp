@@ -11,7 +11,7 @@ module.exports = (app, upload) => {
 
     app.post('/api/users/create', usersController.register);
 
-    app.post('/api/users/create/enfermero', usersController.registerEnfermero);
+    app.post('/api/users/create/enfermero', upload.array('image', 1),usersController.registerwithImage2);
 
     app.post('/api/users/createWithImage', upload.array('image', 1), usersController.registerwithImage);
 

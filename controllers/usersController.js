@@ -126,7 +126,7 @@ module.exports =  {
             }, keys.secretOrkey, {});
             user.session_token = `JWT ${token}`;
             
-            Rol.create(user.id, 2,(err, data) => {
+            Rol.create(user.id, 2, (err, data) => {
                 if(err){
                     return res.status(501).json({
                         success: false,
@@ -172,7 +172,7 @@ module.exports =  {
         
     },
 
-    async registerwithImage(req, res){
+    async registerwithImage2(req, res){
     
         const user = JSON.parse(req.body.user);
         //captura de datos que se envian
