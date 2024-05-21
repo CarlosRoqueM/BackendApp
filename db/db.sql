@@ -24,6 +24,17 @@ ADD COLUMN dni varchar(90) null unique;
 ALTER TABLE app.users
 DROP COLUMN imageback;
 
+//Cambio 21/05/2024
+
+ALTER TABLE app.users
+ADD COLUMN description varchar(255) null;
+
+ALTER TABLE app.users
+ADD COLUMN price double precision null;
+
+ALTER TABLE app.users
+ADD COLUMN experiencie varchar(255) null;
+
 //Cambio 01/05/2024
 create table roles(
 	id bigint primary key auto_increment,
@@ -82,6 +93,25 @@ create table user_has_roles(
     foreign key(id_rol) references roles(id) on update cascade on delete cascade,
 	primary key (id_user, id_rol)	
 );
+
+
+// Nueva tabla
+
+CREATE TABLE address (
+	id bigint primary key auto_increment,
+    address varchar(255) not null,
+    neighborhood varchar(255) not null,
+    lat double precision not null,
+    lng double  precision not null,
+    created_at timestamp(0) not null,
+    updated_at timestamp(0) not null,
+    id_user bigint not null,
+    foreign key(id_user) references users(id) on update cascade on delete cascade
+);
+
+
+
+
 
 // Nueva seleccion de usuario
 

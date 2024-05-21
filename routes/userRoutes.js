@@ -28,6 +28,10 @@ module.exports = (app, upload) => {
 
     app.get('/api/users/nurses', usersController.getAllNurses);
 
+    /* --------------------- Rutas de traer busqueda enfermeros --------------------- */
+
+    app.get('/api/users/nurses/:lastname1', usersController.findByLastName);
+
     
 
     /* --------------------- Update --------------------- */

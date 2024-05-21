@@ -84,6 +84,46 @@ User.getAllNurses = (result) => {
     });
 }
 
+/*------- BUSQUEDA DE ENFERMEROS POR APELLIDO */
+
+User.findByLastName = (lastname1, result) => {
+    const sql = `
+    SELECT
+        CONVERT(U.id, char) AS id,
+        U.email,
+        U.dni,
+        U.name,
+        U.lastname1,
+        U.lastname2,
+        U.phone,
+        U.location,
+        U.image
+    FROM
+        users AS U
+    INNER JOIN
+        user_has_roles AS UHR
+    ON
+        UHR.id_user = U.id
+    INNER JOIN
+        roles AS R
+    ON
+        UHR.id_rol = R.id
+    WHERE
+        R.id = 1 AND LOWER(U.lastname1) LIKE ?
+    GROUP BY
+        U.id;
+    `;
+
+    db.query(sql, [`${lastname1.toLowerCase()}`], (err, users) => {
+        if(err){
+            console.log(`Error: `, err);
+            result(err, null);
+        }else{
+            console.log(`Usuarios: `, users);
+            result(null, users);
+        }
+    });
+}
 
 User.findByID = (id, result) => {
     const sql = `

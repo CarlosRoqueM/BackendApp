@@ -144,7 +144,23 @@ module.exports =  {
         });
     },
 
+    /* ---------------------------------- BUSQUEDA DE ENFERMEROS POR APELLIDO */
 
+    findByLastName(req, res){
+        const lastname1 = req.params.lastname1;
+
+        User.findByLastName(lastname1, (err, data) => {
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: 'Error en la consulta de enfermeros',
+                    error: err
+                });
+            }
+
+            return res.status(201).json(data);
+        });
+    },
 
 
 
