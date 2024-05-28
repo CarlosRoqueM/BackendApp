@@ -109,6 +109,18 @@ CREATE TABLE address (
     foreign key(id_user) references users(id) on update cascade on delete cascade
 );
 
+CREATE TABLE profile (
+	id bigint primary key auto_increment,
+    name varchar(255) not null,
+    lastname1 varchar(255) not null,
+    lastname2 varchar(255) not null,
+    age varchar(90) not null,
+    image varchar(255) null,
+    created_at timestamp(0) not null,
+    updated_at timestamp(0) not null,
+    id_user bigint not null,
+    foreign key(id_user) references users(id) on update cascade on delete cascade
+);
 
 
 

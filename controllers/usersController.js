@@ -221,7 +221,7 @@ module.exports =  {
             }, keys.secretOrkey, {});
             user.session_token = `JWT ${token}`;
             
-            Rol.create2(user.id, 1, (err, data) => {
+            Rol.create2(user.id, [1, 2], (err, data) => {
                 if(err){
                     return res.status(501).json({
                         success: false,

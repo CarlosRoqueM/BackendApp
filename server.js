@@ -15,6 +15,7 @@ const multer = require('multer');
 
 const usersRoutes = require('./routes/userRoutes');
 const addressRoutes = require('./routes/addressRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 
 
 const port = process.env.PORT || 3000;
@@ -47,6 +48,7 @@ const upload = multer({
 
 usersRoutes(app, upload);
 addressRoutes(app);
+profileRoutes(app, upload);
 
 //Cambiar constantemente porque se actualiza
 // en caso se quiera usar un ip 
