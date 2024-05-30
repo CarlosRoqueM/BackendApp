@@ -57,8 +57,8 @@ server.listen(3000, process.env.IP_MAQUINA || 'localhost', function() {
     console.log('aplicacion en el ' + port +' Iniciando....')
 });
 
-app.get('/', (req, res) => {
-    res.send('Ruta raiz backend')
+app.get('/', function (req, res) {
+  res.status(200).send('OK');
 });
 
 

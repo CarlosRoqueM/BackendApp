@@ -17,6 +17,9 @@ User.findByRoles = (id_rol, result) => {
         U.phone,
         U.location,
         U.image,
+        U.description, 
+        U.price,
+        U.experience,
         CONVERT(R.id, char) AS id_rol
     FROM
         users AS U
@@ -57,7 +60,10 @@ User.getAllNurses = (result) => {
         U.lastname2,
         U.phone,
         U.location,
-        U.image
+        U.image,
+        U.description, 
+        U.price,
+        U.experience
     FROM
         users AS U
     INNER JOIN
@@ -235,11 +241,14 @@ User.create = async (user, result) => {
         phone,
         location,
         image,
+        description,
+        price, 
+        experience, 
         password,
         created_at,
         updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -253,6 +262,9 @@ User.create = async (user, result) => {
             user.phone,
             user.location,
             user.image,
+            user.description,
+            user.price, 
+            user.experience, 
             hash,
             new Date(),
             new Date()
@@ -268,6 +280,53 @@ User.create = async (user, result) => {
         }
     )
 }
+
+    
+User.registerNurse = async (user, result) => {
+    bcrypt.hash(user.password, 10, (err, hash) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+
+        const sql = `
+        INSERT INTO users (email, dni, name, lastname1, lastname2, phone, location, image, description, price, experience, password, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.query(
+            sql,
+            [
+                user.email,
+                user.dni,
+                user.name,
+                user.lastname1,
+                user.lastname2,
+                user.phone,
+                user.location,
+                user.image,
+                user.description,
+                user.price, 
+                user.experience, 
+                hash,
+                new Date(),
+                new Date()
+            ],
+            (err, res) => {
+                if(err){
+                    console.log(`Error: `, err);
+                    result(err, null);
+                }else{
+                    console.log(`Id del nuevo enfermero: `, res.insertId);
+                    result(null, res.insertId); // Aquí está el cambio
+                }
+            }
+        )
+    });
+};
+
+
+
 
 User.update = (user, result) => {
 

@@ -32,6 +32,7 @@ ADD COLUMN description varchar(255) null;
 ALTER TABLE app.users
 ADD COLUMN price double precision null;
 
+//cambiar de experiencie a experience
 ALTER TABLE app.users
 ADD COLUMN experiencie varchar(255) null;
 
