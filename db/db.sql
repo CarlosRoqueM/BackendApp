@@ -123,6 +123,25 @@ CREATE TABLE profile (
 );
 
 
+CREATE TABLE booking (
+    id bigint primary key auto_increment,
+    id_client bigint not null,
+    id_nurse bigint null,
+    id_address bigint not null,
+    id_profile bigint not null,
+    lat double precision,
+    lng double precision,
+    status varchar(90) not null,
+    date date null,
+    time time null,
+    timestamp bigint not null,
+    created_at timestamp(0) not null,
+    updated_at timestamp(0) not null,
+    foreign key(id_client) references users(id) on update cascade on delete cascade,
+    foreign key(id_nurse) references users(id) on update cascade on delete cascade,
+    foreign key(id_address) references address(id) on update cascade on delete cascade,
+    foreign key(id_profile) references profile(id) on update cascade on delete cascade
+);
 
 
 // Nueva seleccion de usuario
