@@ -20,6 +20,7 @@ User.findByRoles = (id_rol, result) => {
         U.description, 
         U.price,
         U.experience,
+
         CONVERT(R.id, char) AS id_rol
     FROM
         users AS U
@@ -64,7 +65,7 @@ User.getAllNurses = (result) => {
         U.description, 
         U.price,
         U.experience
-    FROM
+        FROM
         users AS U
     INNER JOIN
         user_has_roles AS UHR
@@ -241,10 +242,10 @@ User.create = async (user, result) => {
         phone,
         location,
         image,
+        password,
         description,
         price, 
-        experience, 
-        password,
+        experience,
         created_at,
         updated_at
     )
@@ -281,7 +282,6 @@ User.create = async (user, result) => {
     )
 }
 
-    
 User.registerNurse = async (user, result) => {
     bcrypt.hash(user.password, 10, (err, hash) => {
         if (err) {
@@ -324,9 +324,6 @@ User.registerNurse = async (user, result) => {
         )
     });
 };
-
-
-
 
 User.update = (user, result) => {
 

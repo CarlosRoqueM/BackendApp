@@ -362,15 +362,11 @@ module.exports =  {
                 return res.status(501).json({
                     success: false,
                     message: 'Error en la consulta de enfermeros',
-                    data: null
+                    error: err 
                 });
             } 
 
-            return res.status(201).json({
-                success: true,
-                message: 'Enfermeros obtenidos con éxito',
-                data: data
-            });
+            return res.status(201).json(data);
         });
     },
 
