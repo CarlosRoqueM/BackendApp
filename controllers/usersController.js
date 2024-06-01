@@ -49,6 +49,7 @@ module.exports =  {
                     location: myUser.location,
                     image: myUser.image,
                     dni: myUser.dni,
+                    age: myUser.age,
                     description: myUser.description,
                     price: myUser.price,
                     experience: myUser.experience,

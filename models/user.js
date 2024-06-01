@@ -17,7 +17,8 @@ User.findByRoles = (id_rol, result) => {
         U.phone,
         U.location,
         U.image,
-        U.description, 
+        U.description,
+        U.age,
         U.price,
         U.experience,
 
@@ -62,7 +63,8 @@ User.getAllNurses = (result) => {
         U.phone,
         U.location,
         U.image,
-        U.description, 
+        U.description,
+        U.age, 
         U.price,
         U.experience
         FROM
@@ -244,12 +246,13 @@ User.create = async (user, result) => {
         image,
         password,
         description,
-        price, 
+        age,
+        price,
         experience,
         created_at,
         updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -264,6 +267,7 @@ User.create = async (user, result) => {
             user.location,
             user.image,
             user.description,
+            user.age,
             user.price, 
             user.experience, 
             hash,
@@ -290,8 +294,8 @@ User.registerNurse = async (user, result) => {
         }
 
         const sql = `
-        INSERT INTO users (email, dni, name, lastname1, lastname2, phone, location, image, description, price, experience, password, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users (email, dni, name, lastname1, lastname2, phone, location, image, description, age, price, experience, password, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         db.query(
@@ -305,6 +309,7 @@ User.registerNurse = async (user, result) => {
                 user.phone,
                 user.location,
                 user.image,
+                user.age,
                 user.description,
                 user.price, 
                 user.experience, 
