@@ -49,6 +49,10 @@ module.exports =  {
                     location: myUser.location,
                     image: myUser.image,
                     dni: myUser.dni,
+                    age: myUser.age,
+                    description: myUser.description,
+                    price: myUser.price,
+                    experience: myUser.experience,
                     password: myUser.password,
                     session_token: `JWT ${token}`,
                     roles: typeof myUser.roles === 'string' ? JSON.parse(myUser.roles) : myUser.roles
@@ -167,26 +171,43 @@ module.exports =  {
     ///Registro de usuario para enfermero //
     
     registerEnfermero(req, res){
-    
-        const user = req.body; //captura de datos que se envian
 
-        User.create(user, (err, data) =>{
+    const nurse = req.body; //captura de datos que se envian
+
+    /*if (!nurseData.description || !nurseData.price || !nurseData.experience) {
+        return res.status(400).json({
+            success: false,
+            message: 'Faltan campos requeridos para el registro del enfermero'
+        });
+    }*/
+
+    User.registerNurse(nurse, (err, data) =>{
+        if(err){
+            return res.status(501).json({
+                success: false,
+                message: 'Error en el registro del usuario',
+                error: err 
+            });
+        } 
+
+        // Asignar el rol de enfermero al usuario
+        Rol.create2(data, 1, (err) => {
             if(err){
                 return res.status(501).json({
                     success: false,
-                    message: 'Error en el registro del usuario',
+                    message: 'Error al asignar el rol de enfermero al usuario',
                     error: err 
                 });
-            } 
+            }
 
             return res.status(201).json({
                 success: true,
                 message: 'Registro exitoso',
-                data: data //Id del nuevo usuario
+                data: data.insertId //Id del nuevo usuario
             });
         });
-        
-    },
+    });
+},
 
     async registerwithImage2(req, res){
     
@@ -204,7 +225,25 @@ module.exports =  {
         }
     }
 
-        User.create(user, (err, data) =>{
+
+    User.registerNurse(user, (err, data) =>{
+        if(err){
+            return res.status(501).json({
+                success: false,
+                message: 'Error en el registro del usuario',
+                error: err 
+            });
+        } 
+
+        user.id = `${data}`;
+
+        const token = jwt.sign({
+            id: user.id,
+            email: user.email
+        }, keys.secretOrkey, {});
+        user.session_token = `JWT ${token}`;
+        
+        Rol.create2(user.id, 1, (err, data) => {
             if(err){
                 return res.status(501).json({
                     success: false,
@@ -213,34 +252,14 @@ module.exports =  {
                 });
             } 
 
-            user.id = `${data}`;
-
-            const token = jwt.sign({
-                id: user.id,
-                email: user.email
-            }, keys.secretOrkey, {});
-            user.session_token = `JWT ${token}`;
-            
-            Rol.create2(user.id, [1, 2], (err, data) => {
-                if(err){
-                    return res.status(501).json({
-                        success: false,
-                        message: 'Error en el registro del usuario',
-                        error: err 
-                    });
-                } 
-
-                return res.status(201).json({
-                    success: true,
-                    message: 'Registro exitoso',
-                    data: User //Id del nuevo usuario
-                });
-            });   
-        });
-    },
-
-
-
+            return res.status(201).json({
+                success: true,
+                message: 'Registro exitoso',
+                data: User //Id del nuevo usuario
+            });
+        });   
+    });
+},
 
 
 
