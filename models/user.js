@@ -245,14 +245,10 @@ User.create = async (user, result) => {
         location,
         image,
         password,
-        description,
-        age,
-        price,
-        experience,
         created_at,
         updated_at
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -266,11 +262,7 @@ User.create = async (user, result) => {
             user.phone,
             user.location,
             user.image,
-            user.description,
-            user.age,
-            user.price, 
-            user.experience, 
-            hash,
+            hash, 
             new Date(),
             new Date()
         ],
