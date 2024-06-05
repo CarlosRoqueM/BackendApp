@@ -30,11 +30,15 @@ ALTER TABLE app.users
 ADD COLUMN description varchar(255) null;
 
 ALTER TABLE app.users
-ADD COLUMN price double precision null;
+ADD COLUMN price varchar(255) null;
 
 //cambiar de experiencie a experience
 ALTER TABLE app.users
-ADD COLUMN experiencie varchar(255) null;
+ADD COLUMN experience varchar(255) null;
+
+//age
+ALTER TABLE app.users
+ADD COLUMN age varchar(255) null;
 
 //Cambio 01/05/2024
 create table roles(
