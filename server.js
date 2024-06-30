@@ -55,8 +55,14 @@ profileRoutes(app, upload);
 // server.listen(3000, 'IP' (de la maquina) || 'localhost', function() {
 //Cambiar el puerto ante cualquier error o verificar la contraseña
 
-server.listen(3000, process.env.IP_MAQUINA || 'localhost', function() {
-    console.log('aplicacion en el ' + port +' Iniciando....')
+//Ip personalizado
+// server.listen(3000, process.env.IP_MAQUINA || 'localhost', function() {
+//     console.log('aplicacion en el ' + port +' Iniciando....')
+// });
+
+// Escuchar en todas las interfaces de redes permite que el contenedor Docker sea accesible desde el host.
+server.listen(3000, '0.0.0.0', function() {
+    console.log('Aplicación iniciando en el puerto 3000...');
 });
 
 app.get('/', function (req, res) {
