@@ -355,6 +355,22 @@ module.exports =  {
         });
     },
 
+    /* ---------------------------------- TRAER todos los usuarios*/
+
+    getAllUsers(req, res){
+        User.getAllUsers((err, data) => {
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: 'Error en la consulta de usuarios',
+                    error: err 
+                });
+            } 
+
+            return res.status(201).json(data);
+        });
+    },
+
     /* ---------------------------------- TRAER ENFERMERO POR ID */
 
     getAllNurses(req, res){

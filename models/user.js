@@ -49,6 +49,38 @@ User.findByRoles = (id_rol, result) => {
     });
 }
 
+/*---- Traer datos de los usuarios---------*/
+
+User.getAllUsers = (result) => {
+    const sql = `
+    SELECT
+        CONVERT(id, char) AS id,
+        email,
+        dni,
+        name,
+        lastname1,
+        lastname2,
+        phone,
+        location,
+        image,
+        description,
+        age, 
+        price,
+        experience
+    FROM
+        users 
+    `;
+    db.query(sql, (err, users) => {
+        if(err){
+            console.log(`Error: `, err);
+            result(err, null);
+        }else{
+            console.log(`Usuarios: `, users);
+            result(null, users);
+        }
+    });
+}
+
 /*---- Traer datos de los enfermeros--------- */
 
 User.getAllNurses = (result) => {

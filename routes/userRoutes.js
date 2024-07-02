@@ -8,6 +8,7 @@ module.exports = (app, upload) => {
 
     /* --------------------- Rutas de usuarios --------------------- */
 
+    app.get('/api/users/all', usersController.getAllUsers);
 
     app.post('/api/users/create', usersController.register);
 
